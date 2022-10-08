@@ -13,7 +13,7 @@ const handleLocationSubmit = async (e) => {
     
     // get current weather
     // TODO: replace lat and lon with location from line 10 after development
-    // const currentWeather = await getCurrentWeather(TEST_COORDS);
+    const currentWeather = await getCurrentWeather(TEST_COORDS);
     
     // use latitude/longitude to retrieve 5 day weather forecast
     const forecast = await getForecast(TEST_COORDS);
@@ -23,9 +23,9 @@ const handleLocationSubmit = async (e) => {
     document.querySelector('#forecast').classList = 'display-on';
     
     // update current forecast
-    // const currentWeatherEl = document.querySelector('#current-weather');
-    // currentWeatherEl.innerHTML = '';
-    // updateCurrentWeather(currentWeather, currentWeatherEl);
+    const currentWeatherEl = document.querySelector('#current-weather');
+    currentWeatherEl.innerHTML = '';
+    updateCurrentWeather(currentWeather, currentWeatherEl);
 
     // create forecast cards for each day
     // API return 8 timestamps per day, increment by 8 to use only one
@@ -96,8 +96,8 @@ const updateCurrentWeather = (currentWeather, currentWeatherEl) => {
     locationEl.innerHTML = currentWeather.name;
     iconEl.src = `http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`;
     tempEl.innerHTML = `${currentWeather.main.temp}°F`;
-    windEl.innerHTML = `${currentWeather.wind.speed} mph`;
-    humidEl.innerHTML = `${currentWeather.main.humidity}%`;
+    windEl.innerHTML = `${currentWeather.wind.speed} mph winds`;
+    humidEl.innerHTML = `${currentWeather.main.humidity}% humidity`;
 
     // append children to currentWeatherEl
     currentWeatherEl.append(locationEl, iconEl, tempEl, windEl, humidEl);
@@ -123,11 +123,11 @@ const updateForecast = (forecast, futureForecastEl) => {
     humidEl.classList = 'summary humidity';
 
     // add content to elements
-    dateEl.innerHTML = forecast.dt;
+    dateEl.innerHTML = formatDate(forecast.dt);
     iconEl.src = `http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`;
     tempEl.innerHTML = `${forecast.main.temp}°F`;
-    windEl.innerHTML = `${forecast.wind.speed} mph`;
-    humidEl.innerHTML = `${forecast.main.humidity}%`;
+    windEl.innerHTML = `${forecast.wind.speed} mph winds`;
+    humidEl.innerHTML = `${forecast.main.humidity}% humidity`;
 
     // append children to cardContentEl
     cardContentEl.append(dateEl, iconEl, tempEl, windEl, humidEl);
@@ -137,6 +137,18 @@ const updateForecast = (forecast, futureForecastEl) => {
 
     // append child to futureForecastEl
     futureForecastEl.append(cardEl);
+}
+
+const formatDate = (dt) => {
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    const dtObj = new Date(dt*1000);
+    let dtString;
+
+    dtString = days[dtObj.getDay()];
+    dtString += ' ' + (dtObj.getMonth() + 1);
+    dtString += '/' + dtObj.getDate();
+
+    return dtString;
 }
 
 // TODO: create function to save data to local storage
