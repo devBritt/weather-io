@@ -1,3 +1,7 @@
+const OW_KEY = require('../../config');
+const GEO_BASE_URL = `http://api.openweathermap.org/geo/1.0/direct`;
+const OC_BASE_URL = `https://api.openweathermap.org/data/3.0/onecall`;
+
 // location form submit handler
 const handleLocationSubmit = (e) => {
     const location = document.querySelector('#loc-input').value;
