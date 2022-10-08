@@ -13,7 +13,7 @@ const handleLocationSubmit = async (e) => {
     
     // get current weather
     // TODO: replace lat and lon with location from line 10 after development
-    const currentWeather = await getCurrentWeather(TEST_COORDS);
+    // const currentWeather = await getCurrentWeather(TEST_COORDS);
     
     // use latitude/longitude to retrieve 5 day weather forecast
     const forecast = await getForecast(TEST_COORDS);
@@ -23,10 +23,17 @@ const handleLocationSubmit = async (e) => {
     document.querySelector('#forecast').classList = 'display-on';
     
     // update current forecast
-    updateCurrentWeather(currentWeather);
+    // const currentWeatherEl = document.querySelector('#current-weather');
+    // currentWeatherEl.innerHTML = '';
+    // updateCurrentWeather(currentWeather, currentWeatherEl);
 
     // create forecast cards for each day
-    // updateForecast(forecast);
+    // API return 8 timestamps per day, increment by 8 to use only one
+    const futureForecastEl = document.querySelector('#future-forecast');
+    futureForecastEl.innerHTML = '';
+    for (let i = 0; i < forecast.list.length; i+=8) {
+        updateForecast(forecast.list[i], futureForecastEl);
+    }
     
     // save current location to local storage
     
@@ -70,9 +77,7 @@ const getForecast = async (coords) => {
     return await makeAPICall(`https://api.openweathermap.org/data/2.5/forecast?lat=${coords.lat}&lon=${coords.lon}&units=imperial&appid=${OW_KEY}`);
 }
 
-const updateCurrentWeather = (currentWeather) => {
-    const currentWeatherEl = document.querySelector('#current-weather');
-
+const updateCurrentWeather = (currentWeather, currentWeatherEl) => {
     // create elements to be added to currentWeatherEl
     const locationEl = document.createElement('p');
     const iconEl = document.createElement('img');
@@ -90,17 +95,48 @@ const updateCurrentWeather = (currentWeather) => {
     // add text to element innerHTML
     locationEl.innerHTML = currentWeather.name;
     iconEl.src = `http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`;
-    tempEl.innerHTML = currentWeather.main.temp;
-    windEl.innerHTML = currentWeather.wind.speed;
-    humidEl.innerHTML = currentWeather.main.humidity;
+    tempEl.innerHTML = `${currentWeather.main.temp}°F`;
+    windEl.innerHTML = `${currentWeather.wind.speed} mph`;
+    humidEl.innerHTML = `${currentWeather.main.humidity}%`;
 
     // append children to currentWeatherEl
     currentWeatherEl.append(locationEl, iconEl, tempEl, windEl, humidEl);
 }
 
-// TODO: create function to create forecast cards for each day
-const updateForecast = (forecast) => {
-    const futureForecastEl = document.querySelector('#5-day-forecast');
+const updateForecast = (forecast, futureForecastEl) => {
+    // create needed elements for forecast card
+    const cardEl = document.createElement('div');
+    const cardContentEl = document.createElement('div');
+    const dateEl = document.createElement('p');
+    const iconEl = document.createElement('img');
+    const tempEl = document.createElement('p');
+    const windEl = document.createElement('p');
+    const humidEl = document.createElement('p');
+
+    // assign IDs/class names to card elements
+    cardEl.classList = 'ui card';
+    cardContentEl.classList = 'content';
+    dateEl.classList = 'header';
+    iconEl.classList = 'weather-icon';
+    tempEl.classList = 'summary temp';
+    windEl.classList = 'summary wind';
+    humidEl.classList = 'summary humidity';
+
+    // add content to elements
+    dateEl.innerHTML = forecast.dt;
+    iconEl.src = `http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`;
+    tempEl.innerHTML = `${forecast.main.temp}°F`;
+    windEl.innerHTML = `${forecast.wind.speed} mph`;
+    humidEl.innerHTML = `${forecast.main.humidity}%`;
+
+    // append children to cardContentEl
+    cardContentEl.append(dateEl, iconEl, tempEl, windEl, humidEl);
+
+    // append child to cardEl
+    cardEl.append(cardContentEl);
+
+    // append child to futureForecastEl
+    futureForecastEl.append(cardEl);
 }
 
 // TODO: create function to save data to local storage
