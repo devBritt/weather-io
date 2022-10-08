@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather IO</title>
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
+</head>
+<body>
+    <main>
+        <header><h1>Weather IO Dashboard</h1></header>
+
+        <div>
+            <aside>
+                <h2>Enter a location:</h2>
+                <div>
+                    <form id="location-form">
+                        <input type="text" placeholder="" aria-label="enter a location here to view weather conditions" />
+                        <button type="submit">Search</button>
+                    </form>
+                </div>
+                <div>
+                    <!-- dynamically add recent searches here -->
+                </div>
+            </aside>
+
+            <section>
+                <div>
+                    <!-- dynamically toggle display of this div for new users or no local storage data -->
+                    <h2>Enter a city and state to view it's forecast!</h2>
+                </div>
+                <div>
+                    <!-- dynamically display city name and weather conditions here -->
+                </div>
+                <div>
+                    <!-- dynamically display 5-day forecast here -->
+                </div>
+            </section>
+        </div>
+    </main>
+    <script src="./assets//js/index.js"></script>
+</body>
+</html>
