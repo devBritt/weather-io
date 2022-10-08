@@ -1,18 +1,20 @@
 const OW_KEY = '0b5db2db41c74e8f32c3c74657289d6e';
-const OC_BASE_URL = `https://api.openweathermap.org/data/3.0/onecall`;
 
 // location form submit handler
 const handleLocationSubmit = async (e) => {
     e.preventDefault();
-    
+
     const location = document.querySelector('#loc-input').value.trim();
     
     // get location latitude/longitude
     const coords = await getLocationCoords(location);
+
+    // get current weather
+    const currentWeather = await getCurrentWeather(coords);
     
     // use latitude/longitude to retrieve 5 day weather forecast
-    
-    
+    const forecast = await getForecast(coords);
+
     // toggle welcome message display
     
     
@@ -32,6 +34,12 @@ const handleLocationSubmit = async (e) => {
     
 }
 
+const makeAPICall = async (url) => {
+    return await fetch(url, {
+        method: 'GET'
+    }).then(response => response.json());
+}
+
 const getLocationCoords = async (location) => {
     const GEO_BASE_URL = `http://api.openweathermap.org/geo/1.0/`;
 
@@ -41,26 +49,25 @@ const getLocationCoords = async (location) => {
     if (parseInt(location)) {
         url += `zip?zip=${location},US&appid=${OW_KEY}`;
 
-        const response = await fetchCoords(url);
+        const response = await makeAPICall(url);
 
         return { lat: response.lat, lon: response.lon };
     } else {
         url += `direct?q=${location.split(',')[0].trim()},${location.split(',')[1].trim().toUpperCase()},US&appid=${OW_KEY}`;
 
-        const response = await fetchCoords(url);
+        const response = await makeAPICall(url);
 
         return { lat: response[0].lat, lon: response[0].lon };
     }
 }
 
-const fetchCoords = async (url) => {
-    return await fetch(url, {
-        method: 'GET'
-    }).then(response => response.json());
+const getCurrentWeather = async (coords) => {
+    return await makeAPICall(`https://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&units=imperial&appid=${OW_KEY}`);
 }
 
-// TODO: create function to retrieve forecast
-
+const getForecast = async (coords) => {
+    return await makeAPICall(`https://api.openweathermap.org/data/2.5/forecast?lat=${coords.lat}&lon=${coords.lon}&units=imperial&appid=${OW_KEY}`);
+}
 
 // TODO: create function to toggle welcome message
 
