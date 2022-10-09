@@ -35,11 +35,11 @@ const handleLocationSubmit = async (e) => {
         updateForecast(forecast.list[i], futureForecastEl);
     }
     
-    // add current location to recent searches list
-    updateRecentSearches(currentWeather.name);
-
     // add current location to recent searches list in local storage
-    saveToLocal({ lat: currentWeather.coord.lat, lon: currentWeather.coord.lon, name: currentWeather.name });
+    const savedSearches = saveToLocal({ lat: currentWeather.coord.lat, lon: currentWeather.coord.lon, name: currentWeather.name });
+    
+    // add current location to recent searches list
+    updateRecentSearches(savedSearches);
 }
 
 const makeAPICall = async (url) => {
@@ -139,31 +139,30 @@ const updateForecast = (forecast, futureForecastEl) => {
     futureForecastEl.append(cardEl);
 }
 
-const updateRecentSearches = (city) => {
+const updateRecentSearches = (savedSearches) => {
     const recentSearchesEl = document.querySelector('#recent-searches');
+    recentSearchesEl.innerHTML = '';
     
-    // remove oldest search if 10 or more searches have been saved
-    if (recentSearchesEl.childNodes.length >= 10) {
-        recentSearchesEl.removeChild(recentSearchesEl.childNodes[9]);
-    }
-
-    // create needed elements to add to recent search list
-    const containerEl = document.createElement('article');
-    const searchCityEl = document.createElement('p');
-
-    // assign IDs/class names to elements
-    containerEl.classList = 'recent-search-container';
-    searchCityEl.classList = 'recent-search';
-
-    // add city name to searchCityEl
-    searchCityEl.innerHTML = city;
-
-    containerEl.append(searchCityEl);
+    savedSearches.forEach((search, index) => {
+        // create needed elements to add to recent search list
+        const containerEl = document.createElement('article');
+        const searchCityEl = document.createElement('p');
     
-    // insert newest search as the first child of recentSearchesEl
-    recentSearchesEl.hasChildNodes() ?
-        recentSearchesEl.insertBefore(containerEl, recentSearchesEl.firstChild)
-        : recentSearchesEl.append(containerEl);
+        // assign IDs/class names to elements
+        containerEl.classList = 'recent-search-container';
+        searchCityEl.classList = 'recent-search';
+        searchCityEl.id = index;
+    
+        // add city name to searchCityEl
+        searchCityEl.innerHTML = search.name;
+    
+        containerEl.append(searchCityEl);
+        
+        // insert newest search as the first child of recentSearchesEl
+        recentSearchesEl.hasChildNodes() ?
+            recentSearchesEl.insertBefore(containerEl, recentSearchesEl.firstChild)
+            : recentSearchesEl.append(containerEl);
+    });
 }
 
 const formatDate = (dt) => {
@@ -180,7 +179,7 @@ const formatDate = (dt) => {
 
 const saveToLocal = (item) => {
     // get list of recent searches from storage
-    const recentSearches = loadFromLocal();
+    let recentSearches = loadFromLocal();
 
     // remove oldest search if 10 or more searches have been saved
     if (recentSearches && recentSearches.length >= 10) {
@@ -191,6 +190,7 @@ const saveToLocal = (item) => {
     recentSearches.push(item);
 
     localStorage.setItem('weatherIO', JSON.stringify(recentSearches));
+    return recentSearches;
 }
 
 const loadFromLocal = () => {
