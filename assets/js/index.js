@@ -253,7 +253,7 @@ const handleLocationSubmit = async (e) => {
     switch (validateLocation(location)) {
         // an invalid city, state or zip code entry
         case false: {
-            // TODO: display alert that the location entered was invalid
+            alert(`${location} isn't a valid zip code or city and state combination. Check for typos or mispellings.`)
             break;
         }
         // a valid city, state or zip code entry
@@ -282,7 +282,7 @@ const handleLocationSubmit = async (e) => {
             break;
         }
         default: {
-            // TODO: display alert that something went wrong
+            alert('Oops, sorry about that! Something went wrong on our end.');
             break;
         }
     }
@@ -312,12 +312,14 @@ const validateLocation = (input) => {
         if (input.match(/^\d{5}$/)) return true
         else return false;
     } else {
-        const inputArr = input.split(', ').trim();
+        // split on comma
+        let formattedInput = formatLocationString(input);
+        console.log(formattedInput);
 
         // check length of state (second in array)
-        if (inputArr[1].length === 2) return validateStateCode(input[1])
+        if (formattedInput[1].length === 2) return validateStateCode(formattedInput[1])
         // search STATES.name for a match
-        else return validateState(input[1]);
+        else return validateState(formattedInput[1]);
     }
 }
 
@@ -343,16 +345,17 @@ const getLocationCoords = async (location) => {
     const GEO_BASE_URL = `http://api.openweathermap.org/geo/1.0/`;
 
     let url = GEO_BASE_URL;
-    
+
     // check for zip code or city/state
     if (parseInt(location)) {
-        url += `zip?zip=${location},US&appid=${OW_KEY}`;
+        url += `zip?zip=${location.trim()},US&appid=${OW_KEY}`;
 
         const response = await makeAPICall(url);
 
         return { lat: response.lat, lon: response.lon };
     } else {
-        url += `direct?q=${location.split(',')[0].trim()},${location.split(',')[1].trim().toUpperCase()},US&appid=${OW_KEY}`;
+        const formattedLocation = formatLocationString(location);
+        url += `direct?q=${formattedLocation[0].trim()},${formattedLocation[1].trim()},US&appid=${OW_KEY}`;
 
         const response = await makeAPICall(url);
 
@@ -479,6 +482,20 @@ const formatDate = (dt) => {
     dtString += '/' + dtObj.getDate();
 
     return dtString;
+}
+
+const formatLocationString = (input) => {
+    // split on comma
+    let inputArr = input.trim().split(',');
+
+    // check if split was successful
+    if (inputArr.length !== 2) {
+        console.log(inputArr);
+        inputArr = input.split(' ');
+        console.log(inputArr);
+    }
+
+    return inputArr;
 }
 
 const toggleElementDisplay = (element, bool) => {
