@@ -35,10 +35,8 @@ const handleLocationSubmit = async (e) => {
         updateForecast(forecast.list[i], futureForecastEl);
     }
     
-    // save current location to local storage
-    
-    
     // add current location to recent searches list in local storage
+    saveToLocal({ lat: currentWeather.coord.lat, lon: currentWeather.coord.lon, name: currentWeather.name });
     
 }
 
@@ -152,10 +150,30 @@ const formatDate = (dt) => {
 }
 
 // TODO: create function to save data to local storage
+const saveToLocal = (item) => {
+    // get list of recent searches from storage
+    const recentSearches = loadFromLocal();
 
+    // remove oldest search if 10 or more searches have been saved
+    if (recentSearches && recentSearches.length >= 10) {
+        recentSearches.shift();
+    }
+
+    // add newest search to list
+    recentSearches.push(item);
+
+    localStorage.setItem('weatherIO', JSON.stringify(recentSearches));
+}
 
 // TODO: create function to load data from local storage
+const loadFromLocal = () => {
+    let recentSearches = JSON.parse(localStorage.getItem('weatherIO'));
+    console.log(recentSearches);
 
+    if (!recentSearches) recentSearches = [];
+
+    return recentSearches;
+}
 
 // TODO: add on page load function calls
 
