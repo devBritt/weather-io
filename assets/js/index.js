@@ -5,6 +5,12 @@ const TEST_COORDS = { lat: '20.35269', lon: '-77.30145', name: 'Test City' };
 // location form submit handler
 const handleLocationSubmit = async (e) => {
     e.preventDefault();
+
+    // hide welcome section
+    toggleElementDisplay(document.querySelector('#welcome'), false);
+    
+    // show forecast section
+    toggleElementDisplay(document.querySelector('#forecast'), true);
     
     const location = document.querySelector('#loc-input').value.trim();
     
@@ -22,7 +28,6 @@ const handleLocationSubmit = async (e) => {
     updateCurrentWeather(currentWeather);
 
     // create forecast cards for each day
-    // API return 8 timestamps per day, increment by 8 to use only one
     updateForecast(forecast);
     
     // add current location to recent searches list in local storage
@@ -198,6 +203,12 @@ const formatDate = (dt) => {
     return dtString;
 }
 
+const toggleElementDisplay = (element, bool) => {
+    // if bool is true, element should be visible
+    // if bool is false, element should be hidden
+    bool ? element.classList = 'visible' : element.classList = 'hidden';
+}
+
 const saveToLocal = (item) => {
     // get list of recent searches from storage
     let recentSearches = loadFromLocal();
@@ -222,7 +233,35 @@ const loadFromLocal = () => {
     return recentSearches;
 }
 
-// TODO: add on page load function calls
+const onPageLoad = async () => {
+    const loadedSearches = loadFromLocal();
+
+    // check if loadedSearches is empty
+    if (loadedSearches.length < 1) {
+        // display welcome section
+        toggleElementDisplay(document.querySelector('#welcome'), true);
+        // hide forecast section
+        toggleElementDisplay(document.querySelector('#forecast'), false);
+    } else {
+        // display forecast section
+        toggleElementDisplay(document.querySelector('#forecast'), true);
+        // hide welcome section
+        toggleElementDisplay(document.querySelector('#welcome'), false);
+
+        // display recent searches list
+        updateRecentSearches(loadedSearches);
+    
+        // use most recent search to get current weather and forecast
+        const currentWeather = await getCurrentWeather(loadedSearches[9]);
+        const forecast = await getForecast(loadedSearches[9]);
+
+        // update current weather/forecast sections
+        updateCurrentWeather(currentWeather);
+        updateForecast(forecast);
+    }
+}
+
+onPageLoad();
 
 // form submit listener
 document.querySelector('#location-form').addEventListener('submit', handleLocationSubmit);
