@@ -18,28 +18,36 @@ const handleLocationSubmit = async (e) => {
     // use latitude/longitude to retrieve 5 day weather forecast
     const forecast = await getForecast(TEST_COORDS);
     
-    // toggle off welcome message
-    document.querySelector('#welcome').classList = 'display-off';
-    document.querySelector('#forecast').classList = 'display-on';
-    
     // update current forecast
-    const currentWeatherEl = document.querySelector('#current-weather');
-    currentWeatherEl.innerHTML = '';
-    updateCurrentWeather(currentWeather, currentWeatherEl);
+    updateCurrentWeather(currentWeather);
 
     // create forecast cards for each day
     // API return 8 timestamps per day, increment by 8 to use only one
-    const futureForecastEl = document.querySelector('#future-forecast');
-    futureForecastEl.innerHTML = '';
-    for (let i = 0; i < forecast.list.length; i+=8) {
-        updateForecast(forecast.list[i], futureForecastEl);
-    }
+    updateForecast(forecast);
     
     // add current location to recent searches list in local storage
     const savedSearches = saveToLocal({ lat: currentWeather.coord.lat, lon: currentWeather.coord.lon, name: currentWeather.name });
     
     // add current location to recent searches list
     updateRecentSearches(savedSearches);
+}
+
+const handleSearchesClick = async (e) => {
+    e.preventDefault();
+
+    // get target index (id)
+    const targetIndex = e.target.id;
+
+    // use target index to get coords from local storage
+    const loadedSearch = loadFromLocal()[targetIndex];
+
+    // use coords to get current weather and forecast
+    const currentWeather = await getCurrentWeather(loadedSearch);
+    const forecast = await getForecast(loadedSearch);
+
+    // update DOM with current weather/forecast results
+    updateCurrentWeather(currentWeather);
+    updateForecast(forecast);
 }
 
 const makeAPICall = async (url) => {
@@ -77,7 +85,10 @@ const getForecast = async (coords) => {
     return await makeAPICall(`https://api.openweathermap.org/data/2.5/forecast?lat=${coords.lat}&lon=${coords.lon}&units=imperial&appid=${OW_KEY}`);
 }
 
-const updateCurrentWeather = (currentWeather, currentWeatherEl) => {
+const updateCurrentWeather = (currentWeather) => {
+    const currentWeatherEl = document.querySelector('#current-weather');
+    currentWeatherEl.innerHTML = '';
+    
     // create elements to be added to currentWeatherEl
     const locationEl = document.createElement('p');
     const iconEl = document.createElement('img');
@@ -103,40 +114,50 @@ const updateCurrentWeather = (currentWeather, currentWeatherEl) => {
     currentWeatherEl.append(locationEl, iconEl, tempEl, windEl, humidEl);
 }
 
-const updateForecast = (forecast, futureForecastEl) => {
-    // create needed elements for forecast card
-    const cardEl = document.createElement('div');
-    const cardContentEl = document.createElement('div');
-    const dateEl = document.createElement('p');
-    const iconEl = document.createElement('img');
-    const tempEl = document.createElement('p');
-    const windEl = document.createElement('p');
-    const humidEl = document.createElement('p');
+const updateForecast = (forecast) => {
+    const futureForecastEl = document.querySelector('#future-forecast');
+    futureForecastEl.innerHTML = '';
+    const forecastList = [];
 
-    // assign IDs/class names to card elements
-    cardEl.classList = 'ui card';
-    cardContentEl.classList = 'content';
-    dateEl.classList = 'header';
-    iconEl.classList = 'weather-icon';
-    tempEl.classList = 'summary temp';
-    windEl.classList = 'summary wind';
-    humidEl.classList = 'summary humidity';
+    for (let i = 0; i < forecast.list.length; i+=8) {
+        forecastList.push(forecast.list[i]);
+    }
 
-    // add content to elements
-    dateEl.innerHTML = formatDate(forecast.dt);
-    iconEl.src = `http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`;
-    tempEl.innerHTML = `${forecast.main.temp}°F`;
-    windEl.innerHTML = `${forecast.wind.speed} mph winds`;
-    humidEl.innerHTML = `${forecast.main.humidity}% humidity`;
-
-    // append children to cardContentEl
-    cardContentEl.append(dateEl, iconEl, tempEl, windEl, humidEl);
-
-    // append child to cardEl
-    cardEl.append(cardContentEl);
-
-    // append child to futureForecastEl
-    futureForecastEl.append(cardEl);
+    forecastList.forEach(item => {
+        // create needed elements for forecast card
+        const cardEl = document.createElement('div');
+        const cardContentEl = document.createElement('div');
+        const dateEl = document.createElement('p');
+        const iconEl = document.createElement('img');
+        const tempEl = document.createElement('p');
+        const windEl = document.createElement('p');
+        const humidEl = document.createElement('p');
+    
+        // assign IDs/class names to card elements
+        cardEl.classList = 'ui card';
+        cardContentEl.classList = 'content';
+        dateEl.classList = 'header';
+        iconEl.classList = 'weather-icon';
+        tempEl.classList = 'summary temp';
+        windEl.classList = 'summary wind';
+        humidEl.classList = 'summary humidity';
+    
+        // add content to elements
+        dateEl.innerHTML = formatDate(item.dt);
+        iconEl.src = `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`;
+        tempEl.innerHTML = `${item.main.temp}°F`;
+        windEl.innerHTML = `${item.wind.speed} mph winds`;
+        humidEl.innerHTML = `${item.main.humidity}% humidity`;
+    
+        // append children to cardContentEl
+        cardContentEl.append(dateEl, iconEl, tempEl, windEl, humidEl);
+    
+        // append child to cardEl
+        cardEl.append(cardContentEl);
+    
+        // append child to futureForecastEl
+        futureForecastEl.append(cardEl);
+    })
 }
 
 const updateRecentSearches = (savedSearches) => {
@@ -195,7 +216,6 @@ const saveToLocal = (item) => {
 
 const loadFromLocal = () => {
     let recentSearches = JSON.parse(localStorage.getItem('weatherIO'));
-    console.log(recentSearches);
 
     if (!recentSearches) recentSearches = [];
 
@@ -206,3 +226,6 @@ const loadFromLocal = () => {
 
 // form submit listener
 document.querySelector('#location-form').addEventListener('submit', handleLocationSubmit);
+
+// recent searches click listener
+document.querySelector('#recent-searches').addEventListener('click', handleSearchesClick);
