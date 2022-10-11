@@ -506,7 +506,7 @@ const formatLocationString = (input) => {
 const toggleElementDisplay = (element, bool) => {
     // if bool is true, element should be visible
     // if bool is false, element should be hidden
-    bool ? element.classList = 'visible' : element.classList = 'hidden';
+    bool ? element.classList = '' : element.classList = 'hidden';
 }
 
 const saveToLocal = (item) => {

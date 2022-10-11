@@ -13,12 +13,14 @@
         <header><h1>Weather IO Dashboard</h1></header>
 
         <div class="ui grid">
-            <aside class="four wide column container">
+            <aside class="three wide column">
                 <h2>Enter a location:</h2>
                 <div>
-                    <form id="location-form">
-                        <input id="loc-input" type="text" placeholder="City, State or Zip Code" aria-label="enter a location here to view weather conditions" required />
-                        <button type="submit" id="location-submit">Search</button>
+                    <form id="location-form" class="ui form">
+                        <div class="field">
+                            <input id="loc-input" class= type="text" placeholder="City, State or Zip Code" aria-label="enter a location here to view weather conditions" required />
+                        </div>
+                        <button class="ui button" type="submit" id="location-submit">Search</buttonc>
                     </form>
                 </div>
                 <div id="recent-searches">
@@ -26,20 +28,22 @@
                 </div>
             </aside>
 
-            <section id="welcome" class="twelve wide column">
-                <!-- dynamically toggle display of this div for new users or no local storage data -->
-                <h2>Welcome to Weather IO</h2>
-                <h3>Enter a city and state to view it's forecast or pick one of the recent searches!</h3>
-            </section>
-
-            <section id="forecast" class="twelve wide column">
-                <div id="current-weather">
-                    <!-- dynamically display city name and weather conditions here -->
-                </div>
-                <div id="future-forecast" class="twelve wide column ui grid equal width">
-                    <!-- dynamically display 5-day forecast here -->
-                </div>
-            </section>
+            <div class="thirteen wide column">
+                <section id="welcome">
+                    <!-- dynamically toggle display of this div for new users or no local storage data -->
+                    <h2>Welcome to Weather IO</h2>
+                    <h3>Enter a city and state to view it's forecast or pick one of the recent searches!</h3>
+                </section>
+    
+                <section id="forecast">
+                    <div id="current-weather">
+                        <!-- dynamically display city name and weather conditions here -->
+                    </div>
+                    <div id="future-forecast" class="ui grid equal width">
+                        <!-- dynamically display 5-day forecast here -->
+                    </div>
+                </section>
+            </div>
         </div>
     </main>
     <script src="./assets//js/index.js"></script>
