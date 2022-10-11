@@ -68,6 +68,13 @@ aside {
     font-size: var(--lg-font);
 }
 
+.weather-icon {
+    width: 5rem;
+    height: 5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
 /* utilities */
 .hidden {
     display: none;

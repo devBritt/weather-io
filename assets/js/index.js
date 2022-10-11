@@ -421,7 +421,7 @@ const updateCurrentWeather = (currentWeather) => {
     // add text to element innerHTML
     locationEl.innerHTML = currentWeather.name;
     dateEl.innerHTML = formatDate(currentWeather.dt);
-    iconEl.src = `${CORS_PROXY}http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`;
+    iconEl.src = `./assets/images/${currentWeather.weather[0].icon}.png`;
     tempEl.innerHTML = `${currentWeather.main.temp}°F`;
     windEl.innerHTML = `${currentWeather.wind.speed} mph winds`;
     humidEl.innerHTML = `${currentWeather.main.humidity}% humidity`;
@@ -474,7 +474,7 @@ const updateForecast = (forecast) => {
         
         // add content to elements
         dateEl.innerHTML = formatDate(item.dt);
-        iconEl.src = `${CORS_PROXY}http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`;
+        iconEl.src = `./assets/images/${item.weather[0].icon}.png`;
         tempEl.innerHTML = `${item.main.temp}°F`;
         windEl.innerHTML = `${item.wind.speed} mph`;
         humidEl.innerHTML = `${item.main.humidity}%`;
