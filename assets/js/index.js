@@ -291,6 +291,10 @@ const handleLocationSubmit = async (e) => {
 const handleSearchesClick = async (e) => {
     e.preventDefault();
 
+    // toggle city buttons' state
+    const buttons = document.querySelectorAll('.city-button');
+    toggleBtnState(e.target, buttons);
+    
     // get target index (id)
     const targetIndex = e.target.id;
 
@@ -304,6 +308,19 @@ const handleSearchesClick = async (e) => {
     // update DOM with current weather/forecast results
     updateCurrentWeather(currentWeather);
     updateForecast(forecast);
+}
+
+const toggleBtnState = (target, buttons) => {
+    // make sure all buttons are active except target
+    buttons.forEach((button) => {
+        const buttonClasses = button.className.split(' ');
+        if(buttonClasses.indexOf("active") > -1) {
+            buttonClasses.pop();
+            button.classList = buttonClasses.join(' ');
+        } else if (button === target) {
+            button.classList = buttonClasses.join(' ') + ' active';
+        }
+    })
 }
 
 const validateLocation = (input) => {
@@ -458,11 +475,11 @@ const updateRecentSearches = (savedSearches) => {
     savedSearches.forEach((search, index) => {
         // create needed elements to add to recent search list
         const containerEl = document.createElement('article');
-        const searchCityEl = document.createElement('p');
+        const searchCityEl = document.createElement('button');
     
         // assign IDs/class names to elements
-        containerEl.classList = 'recent-search-container';
-        searchCityEl.classList = 'recent-search';
+        containerEl.classList = 'item';
+        searchCityEl.classList = 'fluid ui toggle button city-button';
         searchCityEl.id = index;
     
         // add city name to searchCityEl

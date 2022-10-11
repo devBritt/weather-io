@@ -10,20 +10,20 @@
 </head>
 <body>
     <main>
-        <header><h1>Weather IO Dashboard</h1></header>
+        <header><h1 class="ui center aligned header">Weather IO Dashboard</h1></header>
 
         <div class="ui grid">
             <aside class="three wide column">
-                <h2>Enter a location:</h2>
                 <div>
                     <form id="location-form" class="ui form">
                         <div class="field">
+                            <label for="loc-input">Location</label>
                             <input id="loc-input" class= type="text" placeholder="City, State or Zip Code" aria-label="enter a location here to view weather conditions" required />
                         </div>
                         <button class="ui button" type="submit" id="location-submit">Search</buttonc>
                     </form>
                 </div>
-                <div id="recent-searches">
+                <div id="recent-searches" class="ui relaxed list">
                     <!-- dynamically add recent searches here -->
                 </div>
             </aside>
