@@ -411,6 +411,7 @@ const updateForecast = (forecast) => {
 
     forecastList.forEach(item => {
         // create needed elements for forecast card
+        const columnEl = document.createElement('div');
         const cardEl = document.createElement('div');
         const cardContentEl = document.createElement('div');
         const dateEl = document.createElement('p');
@@ -420,6 +421,7 @@ const updateForecast = (forecast) => {
         const humidEl = document.createElement('p');
     
         // assign IDs/class names to card elements
+        columnEl.classList = 'column';
         cardEl.classList = 'ui card';
         cardContentEl.classList = 'content';
         dateEl.classList = 'header';
@@ -440,9 +442,12 @@ const updateForecast = (forecast) => {
     
         // append child to cardEl
         cardEl.append(cardContentEl);
+
+        // append child to columnEl
+        columnEl.append(cardEl);
     
         // append child to futureForecastEl
-        futureForecastEl.append(cardEl);
+        futureForecastEl.append(columnEl);
     })
 }
 
