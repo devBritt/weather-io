@@ -393,21 +393,31 @@ const updateCurrentWeather = (currentWeather) => {
     currentWeatherEl.innerHTML = '';
     
     // create elements to be added to currentWeatherEl
-    const locationEl = document.createElement('p');
+    const leftColEl = document.createElement('div');
+    const midColEl = document.createElement('div');
+    const rightColEl = document.createElement('div');
+    const locationEl = document.createElement('span');
     const dateEl = document.createElement('p');
     const iconEl = document.createElement('img');
     const tempEl = document.createElement('p');
+    const windLabelEl = document.createElement('span');
     const windEl = document.createElement('p');
+    const humidLabelEl = document.createElement('span');
     const humidEl = document.createElement('p');
 
     // assign IDs/class names to elements
+    leftColEl.classList = 'three wide column';
+    midColEl.classList = 'three wide column';
+    rightColEl.classList = 'three wide column';
     locationEl.classList = 'location-name';
     dateEl.classList = 'current-date';
     iconEl.classList = 'weather-icon';
     tempEl.classList = 'temp';
     windEl.classList = 'wind';
     humidEl.classList = 'humidity';
-
+    windLabelEl.classList = 'wind-label';
+    humidLabelEl.classList = 'wind-label';
+    
     // add text to element innerHTML
     locationEl.innerHTML = currentWeather.name;
     dateEl.innerHTML = formatDate(currentWeather.dt);
@@ -415,9 +425,16 @@ const updateCurrentWeather = (currentWeather) => {
     tempEl.innerHTML = `${currentWeather.main.temp}°F`;
     windEl.innerHTML = `${currentWeather.wind.speed} mph winds`;
     humidEl.innerHTML = `${currentWeather.main.humidity}% humidity`;
+    windLabelEl.innerHTML = 'Winds';
+    humidLabelEl.innerHTML = 'Humidity';
+
+    // append children to their boxes
+    leftColEl.append(locationEl, dateEl, tempEl);
+    midColEl.append(iconEl);
+    rightColEl.append(windLabelEl, windEl, humidLabelEl, humidEl);
 
     // append children to currentWeatherEl
-    currentWeatherEl.append(locationEl, dateEl, iconEl, tempEl, windEl, humidEl);
+    currentWeatherEl.append(leftColEl, midColEl, rightColEl);
 }
 
 const updateForecast = (forecast) => {
@@ -439,7 +456,9 @@ const updateForecast = (forecast) => {
         const dateEl = document.createElement('p');
         const iconEl = document.createElement('img');
         const tempEl = document.createElement('p');
+        const windLabelEl = document.createElement('span');
         const windEl = document.createElement('p');
+        const humidLabelEl = document.createElement('span');
         const humidEl = document.createElement('p');
     
         // assign IDs/class names to card elements
@@ -451,16 +470,20 @@ const updateForecast = (forecast) => {
         tempEl.classList = 'summary temp';
         windEl.classList = 'summary wind';
         humidEl.classList = 'summary humidity';
-    
+        windLabelEl.classList = 'wind-label';
+        humidLabelEl.classList = 'humid-label';
+        
         // add content to elements
         dateEl.innerHTML = formatDate(item.dt);
         iconEl.src = `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`;
         tempEl.innerHTML = `${item.main.temp}°F`;
-        windEl.innerHTML = `${item.wind.speed} mph winds`;
-        humidEl.innerHTML = `${item.main.humidity}% humidity`;
+        windEl.innerHTML = `${item.wind.speed} mph`;
+        humidEl.innerHTML = `${item.main.humidity}%`;
+        windLabelEl.innerHTML = 'Winds';
+        humidLabelEl.innerHTML = 'Humidity';
     
         // append children to cardContentEl
-        cardContentEl.append(dateEl, iconEl, tempEl, windEl, humidEl);
+        cardContentEl.append(dateEl, iconEl, tempEl, windLabelEl, windEl, humidLabelEl, humidEl);
     
         // append child to cardEl
         cardEl.append(cardContentEl);

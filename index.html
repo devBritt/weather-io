@@ -10,8 +10,6 @@
 </head>
 <body>
     <main>
-        <header><h1 class="ui center aligned header">Weather IO Dashboard</h1></header>
-
         <div class="ui grid">
             <aside class="three wide column ui relaxed divided list">
                 <div class="item">
@@ -32,7 +30,9 @@
                 </div>
             </aside>
 
+            
             <div class="thirteen wide column">
+                <header><h1 class="ui center aligned header">Weather IO Dashboard</h1></header>
                 <section id="welcome">
                     <!-- dynamically toggle display of this div for new users or no local storage data -->
                     <h2>Welcome to Weather IO</h2>
@@ -40,7 +40,7 @@
                 </section>
     
                 <section id="forecast">
-                    <div id="current-weather">
+                    <div id="current-weather" class="ui grid middle aligned center aligned">
                         <!-- dynamically display city name and weather conditions here -->
                     </div>
                     <div id="future-forecast" class="ui grid equal width">
