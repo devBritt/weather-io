@@ -314,11 +314,11 @@ const toggleBtnState = (target, buttons) => {
     // make sure all buttons are active except target
     buttons.forEach((button) => {
         const buttonClasses = button.className.split(' ');
-        if(buttonClasses.indexOf("active") > -1) {
+        if(buttonClasses.indexOf("green") > -1) {
             buttonClasses.pop();
             button.classList = buttonClasses.join(' ');
         } else if (button === target) {
-            button.classList = buttonClasses.join(' ') + ' active';
+            button.classList = buttonClasses.join(' ') + ' green';
         }
     })
 }
@@ -394,6 +394,7 @@ const updateCurrentWeather = (currentWeather) => {
     
     // create elements to be added to currentWeatherEl
     const locationEl = document.createElement('p');
+    const dateEl = document.createElement('p');
     const iconEl = document.createElement('img');
     const tempEl = document.createElement('p');
     const windEl = document.createElement('p');
@@ -401,6 +402,7 @@ const updateCurrentWeather = (currentWeather) => {
 
     // assign IDs/class names to elements
     locationEl.classList = 'location-name';
+    dateEl.classList = 'current-date';
     iconEl.classList = 'weather-icon';
     tempEl.classList = 'temp';
     windEl.classList = 'wind';
@@ -408,23 +410,26 @@ const updateCurrentWeather = (currentWeather) => {
 
     // add text to element innerHTML
     locationEl.innerHTML = currentWeather.name;
+    dateEl.innerHTML = formatDate(currentWeather.dt);
     iconEl.src = `http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`;
     tempEl.innerHTML = `${currentWeather.main.temp}°F`;
     windEl.innerHTML = `${currentWeather.wind.speed} mph winds`;
     humidEl.innerHTML = `${currentWeather.main.humidity}% humidity`;
 
     // append children to currentWeatherEl
-    currentWeatherEl.append(locationEl, iconEl, tempEl, windEl, humidEl);
+    currentWeatherEl.append(locationEl, dateEl, iconEl, tempEl, windEl, humidEl);
 }
 
 const updateForecast = (forecast) => {
     const futureForecastEl = document.querySelector('#future-forecast');
     futureForecastEl.innerHTML = '';
     const forecastList = [];
+    console.log(forecast);
 
-    for (let i = 0; i < forecast.list.length; i+=8) {
-        forecastList.push(forecast.list[i]);
-    }
+    forecast.list.forEach(item => {
+        // only include weather data for noon and ignoring first entry (today)
+        if (item.dt_txt.split(' ')[1] === '12:00:00') forecastList.push(item);
+    })
 
     forecastList.forEach(item => {
         // create needed elements for forecast card
@@ -440,7 +445,7 @@ const updateForecast = (forecast) => {
         // assign IDs/class names to card elements
         columnEl.classList = 'column';
         cardEl.classList = 'ui card';
-        cardContentEl.classList = 'content';
+        cardContentEl.classList = 'content center aligned';
         dateEl.classList = 'header';
         iconEl.classList = 'weather-icon';
         tempEl.classList = 'summary temp';
@@ -479,7 +484,7 @@ const updateRecentSearches = (savedSearches) => {
     
         // assign IDs/class names to elements
         containerEl.classList = 'item';
-        searchCityEl.classList = 'fluid ui toggle button city-button';
+        searchCityEl.classList = 'fluid ui button city-button';
         searchCityEl.id = index;
     
         // add city name to searchCityEl

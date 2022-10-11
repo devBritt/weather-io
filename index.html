@@ -13,18 +13,22 @@
         <header><h1 class="ui center aligned header">Weather IO Dashboard</h1></header>
 
         <div class="ui grid">
-            <aside class="three wide column">
-                <div>
-                    <form id="location-form" class="ui form">
-                        <div class="field">
+            <aside class="three wide column ui relaxed divided list">
+                <div class="item">
+                    <form id="location-form" class="ui form list">
+                        <div class="field item">
                             <label for="loc-input">Location</label>
                             <input id="loc-input" class= type="text" placeholder="City, State or Zip Code" aria-label="enter a location here to view weather conditions" required />
                         </div>
-                        <button class="ui button" type="submit" id="location-submit">Search</buttonc>
+                        <div class="item">
+                            <button class="fluid ui blue button" type="submit" id="location-submit">Search</button>
+                        </div>
                     </form>
                 </div>
-                <div id="recent-searches" class="ui relaxed list">
-                    <!-- dynamically add recent searches here -->
+                <div class="item">
+                    <div id="recent-searches" class="ui relaxed divided list">
+                        <!-- dynamically add recent searches here -->
+                    </div>
                 </div>
             </aside>
 
