@@ -421,7 +421,7 @@ const updateCurrentWeather = (currentWeather) => {
     // add text to element innerHTML
     locationEl.innerHTML = currentWeather.name;
     dateEl.innerHTML = formatDate(currentWeather.dt);
-    iconEl.src = `http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`;
+    iconEl.src = `https://cors-anywhere.herokuapp.com/http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`;
     tempEl.innerHTML = `${currentWeather.main.temp}°F`;
     windEl.innerHTML = `${currentWeather.wind.speed} mph winds`;
     humidEl.innerHTML = `${currentWeather.main.humidity}% humidity`;
@@ -475,7 +475,7 @@ const updateForecast = (forecast) => {
         
         // add content to elements
         dateEl.innerHTML = formatDate(item.dt);
-        iconEl.src = `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`;
+        iconEl.src = `https://cors-anywhere.herokuapp.com/http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`;
         tempEl.innerHTML = `${item.main.temp}°F`;
         windEl.innerHTML = `${item.wind.speed} mph`;
         humidEl.innerHTML = `${item.main.humidity}%`;
