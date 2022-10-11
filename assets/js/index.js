@@ -237,6 +237,7 @@ const STATES = [
         "abbreviation": "WY"
     }
 ]
+const CORS_PROXY = `https://cors-anywhere.herokuapp.com/`;
 
 // location form submit handler
 const handleLocationSubmit = async (e) => {
@@ -358,7 +359,7 @@ const makeAPICall = async (url) => {
 }
 
 const getLocationCoords = async (location) => {
-    const GEO_BASE_URL = `https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/geo/1.0/`;
+    const GEO_BASE_URL = `${CORS_PROXY}http://api.openweathermap.org/geo/1.0/`;
 
     let url = GEO_BASE_URL;
 
@@ -380,11 +381,11 @@ const getLocationCoords = async (location) => {
 }
 
 const getCurrentWeather = async (coords) => {
-    return await makeAPICall(`https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&units=imperial&appid=${OW_KEY}`);
+    return await makeAPICall(`${CORS_PROXY}http://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&units=imperial&appid=${OW_KEY}`);
 }
 
 const getForecast = async (coords) => {
-    return await makeAPICall(`https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/forecast?lat=${coords.lat}&lon=${coords.lon}&units=imperial&appid=${OW_KEY}`);
+    return await makeAPICall(`${CORS_PROXY}http://api.openweathermap.org/data/2.5/forecast?lat=${coords.lat}&lon=${coords.lon}&units=imperial&appid=${OW_KEY}`);
 }
 
 const updateCurrentWeather = (currentWeather) => {
@@ -420,7 +421,7 @@ const updateCurrentWeather = (currentWeather) => {
     // add text to element innerHTML
     locationEl.innerHTML = currentWeather.name;
     dateEl.innerHTML = formatDate(currentWeather.dt);
-    iconEl.src = `https://cors-anywhere.herokuapp.com/http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`;
+    iconEl.src = `${CORS_PROXY}http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`;
     tempEl.innerHTML = `${currentWeather.main.temp}°F`;
     windEl.innerHTML = `${currentWeather.wind.speed} mph winds`;
     humidEl.innerHTML = `${currentWeather.main.humidity}% humidity`;
@@ -473,7 +474,7 @@ const updateForecast = (forecast) => {
         
         // add content to elements
         dateEl.innerHTML = formatDate(item.dt);
-        iconEl.src = `https://cors-anywhere.herokuapp.com/http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`;
+        iconEl.src = `${CORS_PROXY}http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`;
         tempEl.innerHTML = `${item.main.temp}°F`;
         windEl.innerHTML = `${item.wind.speed} mph`;
         humidEl.innerHTML = `${item.main.humidity}%`;
