@@ -9,45 +9,44 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
 </head>
 <body>
-    <main>
-        <div class="ui grid">
-            <aside class="three wide column ui relaxed divided list">
-                <div class="item">
-                    <form id="location-form" class="ui form list">
-                        <div class="field item">
-                            <label for="loc-input">Location</label>
-                            <input id="loc-input" class= type="text" placeholder="City, State or Zip Code" aria-label="enter a location here to view weather conditions" required />
-                        </div>
-                        <div class="item">
-                            <button class="fluid ui blue button" type="submit" id="location-submit">Search</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="item">
-                    <div id="recent-searches" class="ui relaxed divided list">
-                        <!-- dynamically add recent searches here -->
-                    </div>
-                </div>
-            </aside>
-
+    <header id="app-title" class="ui center aligned header">Weather IO Dashboard</header>
             
-            <div class="thirteen wide column">
-                <header><h1 class="ui center aligned header">Weather IO Dashboard</h1></header>
-                <section id="welcome">
-                    <!-- dynamically toggle display of this div for new users or no local storage data -->
-                    <h2>Welcome to Weather IO</h2>
-                    <h3>Enter a city and state to view it's forecast or pick one of the recent searches!</h3>
-                </section>
-    
-                <section id="forecast">
-                    <div id="current-weather" class="ui grid middle aligned center aligned">
-                        <!-- dynamically display city name and weather conditions here -->
+    <main id="app-container" class="ui grid">
+        <aside class="three wide column ui relaxed divided list">
+            <div class="item">
+                <form id="location-form" class="ui form list">
+                    <div class="field item">
+                        <label for="loc-input" id="loc-input-label">Location</label>
+                        <input id="loc-input" class= type="text" placeholder="City, State or Zip Code" aria-label="enter a location here to view weather conditions" required />
                     </div>
-                    <div id="future-forecast" class="ui grid equal width">
-                        <!-- dynamically display 5-day forecast here -->
+                    <div class="item">
+                        <button class="fluid ui blue button" type="submit" id="location-submit">Search</button>
                     </div>
-                </section>
+                </form>
             </div>
+            <div class="item">
+                <div id="recent-searches" class="ui relaxed divided list">
+                    <!-- dynamically add recent searches here -->
+                </div>
+            </div>
+        </aside>
+        
+        
+        <div id="weather-container" class="thirteen wide column">
+            <section id="welcome">
+                <!-- dynamically toggle display of this div for new users or no local storage data -->
+                <h2>Welcome to Weather IO</h2>
+                <h3>Enter a city and state to view it's forecast or pick one of the recent searches!</h3>
+            </section>
+            
+            <section id="forecast">
+                <div id="current-weather" class="ui grid middle aligned center aligned">
+                    <!-- dynamically display city name and weather conditions here -->
+                </div>
+                <div id="future-forecast" class="ui grid equal width">
+                    <!-- dynamically display 5-day forecast here -->
+                </div>
+            </section>
         </div>
     </main>
     <script src="./assets//js/index.js"></script>

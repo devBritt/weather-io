@@ -1,8 +1,72 @@
 /* global variables */
+:root {
+    --sm-font: 1rem;
+    --md-font: 1.25rem;
+    --lg-font: 1.5rem;
+    --xl-font: 2rem;
 
+    --def-pad: 10px;
+
+    --gradient: linear-gradient(90deg, #00a8a5, #00a6af, #00a4ba, #00a1c3, #009dcc, #0099d3, #0094d8, #1c8edb);
+}
 
 /* global styles */
+body {
+    overflow: clip;
+}
 
+body,
+main,
+aside {
+    height: 100%;
+}
+
+aside {
+    background-color: #f0f0f0;
+}
+
+/* ID/class styles */
+#app-container {
+    margin-top: 0;
+}
+
+#app-title {
+    background: var(--gradient);
+    color: white;
+    font-size: var(--xl-font);
+    font-weight: bold;
+    padding-top: var(--def-pad);
+    padding-bottom: var(--def-pad);
+    margin-bottom: 0;
+}
+
+#loc-input-label {
+    font-size: var(--lg-font);
+    margin-bottom: calc(var(--def-pad)*1.5);
+}
+
+#weather-container {
+    padding-right: 2rem;
+}
+
+.weather-label {
+    font-size: var(--md-font);
+    font-weight: bold;
+}
+
+.location-name,
+.current-date {
+    font-size: var(--md-font);
+}
+
+.location-name,
+.temp {
+    font-weight: bold;
+}
+
+.temp {
+    font-size: var(--lg-font);
+}
 
 /* utilities */
 .hidden {

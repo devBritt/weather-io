@@ -415,8 +415,8 @@ const updateCurrentWeather = (currentWeather) => {
     tempEl.classList = 'temp';
     windEl.classList = 'wind';
     humidEl.classList = 'humidity';
-    windLabelEl.classList = 'wind-label';
-    humidLabelEl.classList = 'wind-label';
+    windLabelEl.classList = 'weather-label';
+    humidLabelEl.classList = 'weather-label';
     
     // add text to element innerHTML
     locationEl.innerHTML = currentWeather.name;
@@ -470,8 +470,8 @@ const updateForecast = (forecast) => {
         tempEl.classList = 'summary temp';
         windEl.classList = 'summary wind';
         humidEl.classList = 'summary humidity';
-        windLabelEl.classList = 'wind-label';
-        humidLabelEl.classList = 'humid-label';
+        windLabelEl.classList = 'weather-label';
+        humidLabelEl.classList = 'weather-label';
         
         // add content to elements
         dateEl.innerHTML = formatDate(item.dt);
