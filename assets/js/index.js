@@ -331,12 +331,11 @@ const validateLocation = (input) => {
     } else {
         // split on comma
         let formattedInput = formatLocationString(input);
-        console.log(formattedInput);
 
         // check length of state (second in array)
-        if (formattedInput[1].length === 2) return validateStateCode(formattedInput[1])
+        if (formattedInput[1].trim().length === 2) return validateStateCode(formattedInput[1])
         // search STATES.name for a match
-        else return validateState(formattedInput[1]);
+        else return validateState(formattedInput[1].trim());
     }
 }
 
@@ -359,7 +358,7 @@ const makeAPICall = async (url) => {
 }
 
 const getLocationCoords = async (location) => {
-    const GEO_BASE_URL = `http://api.openweathermap.org/geo/1.0/`;
+    const GEO_BASE_URL = `https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/geo/1.0/`;
 
     let url = GEO_BASE_URL;
 
@@ -441,7 +440,6 @@ const updateForecast = (forecast) => {
     const futureForecastEl = document.querySelector('#future-forecast');
     futureForecastEl.innerHTML = '';
     const forecastList = [];
-    console.log(forecast);
 
     forecast.list.forEach(item => {
         // only include weather data for noon and ignoring first entry (today)
@@ -540,9 +538,7 @@ const formatLocationString = (input) => {
 
     // check if split was successful
     if (inputArr.length !== 2) {
-        console.log(inputArr);
         inputArr = input.split(' ');
-        console.log(inputArr);
     }
 
     return inputArr;
