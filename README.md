@@ -10,7 +10,7 @@
 </h1>
 
 <div align='center'>
-Tech Time Blog is a site for developers to write and post articles about anything and everything tech-related!
+Weather.io - where you can get the weather info you need, and none that you don't.
 </div>
 <br />
 <h2 align='center'>
@@ -27,14 +27,11 @@ Tech Time Blog is a site for developers to write and post articles about anythin
 
 ### Demo
 ---
-[Tech Time Blog](https://salty-basin-12062.herokuapp.com/)
-[![Tech Time Blog](./public/assets/screenshot.png)](https://salty-basin-12062.herokuapp.com/)
+[Weather IO](https://devbritt.github.io/weather-io/)
+[![Weather IO](./assets/images/Weather-IO.png)](https://devbritt.github.io/weather-io/)
 
 <br />
 
 ### Lessons
 ---
-This challenge was the first completely full-stack project in the coding bootcamp and definitely took the most amount of work to date.
-As always, it was an opportunity to practice the concepts we've been learning.
-This challenge also allowed me to really establish a workflow for continuous integration and deployment.
-Being able to simply push the repository to Heroku at any time made deployment testing quick and simple.
+Being that I returned to this assignment towards the end of the coding bootcamp, it was much easier than it would have been at the beginning. However, it helped me reinforce some of the basic concepts of web development that are easy to overlook when working on more complicated projects. It's been quite some time since I've worked with vanilla HTML and CSS and it's always good to go back to the basics every now and then.
